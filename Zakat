@@ -1,0 +1,134 @@
+import java.util.Scanner;
+
+public class ProgramZakat {
+
+    // Zakat Fitrah
+    static final double ZAKAT_FITRAH_BERAS = 2.5;
+    static final double HARGA_BERAS_PER_KG = 12000; // Harga beras per Kg
+
+    // Zakat Mal
+    static final double NISAB_ZAKAT_MAL = 85000000; // Nisab untuk Zakat Mal
+    static final double PERSENTASE_ZAKAT_MAL = 0.025;
+
+    // Zakat Pertanian
+    static final double NISAB_PERTANIAN = 520; // nisab untuk zakat pertanian
+    static final double PERSENTASE_PERTANIAN_IRIGASI = 0.05;
+    static final double PERSENTASE_PERTANIAN_NON_IRIGASI = 0.10;
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int pilihan = 0;
+
+        while (pilihan != 5) {
+            System.out.println("\nSelamat datang di Kalkulator Zakat");
+            System.out.println("1. Zakat Fitrah");
+            System.out.println("2. Zakat Mal");
+            System.out.println("3. Zakat Pertanian");
+            System.out.println("4. Informasi Nisab Zakat");
+            System.out.println("5. Keluar");
+            System.out.print("Pilih jenis zakat yang ingin dihitung : ");
+
+            pilihan = scanner.nextInt();
+
+            switch (pilihan) {
+                case 1:
+                    hitungZakatFitrah(scanner);
+                    break;
+                case 2:
+                    hitungZakatMal(scanner);
+                    break;
+                case 3:
+                    hitungZakatPertanian(scanner);
+                    break;
+                case 4:
+                    tampilkanInformasiNisab();
+                    break;
+                case 5:
+                    System.out.println("Terima kasih telah menggunakan kalkulator zakat. Program selesai.");
+                    break;
+                default:
+                    System.out.println("Pilihan tidak valid, silakan coba lagi.");
+            }
+        }
+
+        scanner.close();
+    }
+
+    // Informasi Nisab Zakat
+    public static void tampilkanInformasiNisab() {
+        System.out.println("\nInformasi Nisab Zakat:");
+        System.out.println("1. Nisab Zakat Fitrah: 2.5 kg beras per orang.");
+        System.out.println("2. Nisab Zakat Mal: Rp 85.000.000 (setara dengan 85 gram emas).");
+        System.out.println("3. Nisab Zakat Pertanian: 520 kg hasil panen.");
+        System.out.println("4. Persentase Zakat Mal: 2.5% dari total harta.");
+        System.out.println("5. Persentase Zakat Pertanian:");
+        System.out.println("   - 5% untuk pertanian dengan irigasi.");
+        System.out.println("   - 10% untuk pertanian tanpa irigasi.\n");
+    }
+
+    // Zakat Fitrah
+    public static void hitungZakatFitrah(Scanner scanner) {
+        System.out.println("\nApakah Anda ingin membayar zakat fitrah dengan beras atau uang?");
+        System.out.println("1. Beras");
+        System.out.println("2. Uang");
+        System.out.print("silahkan pilih : ");
+
+        int pilihan = scanner.nextInt();
+
+        switch (pilihan) {
+            case 1:
+                System.out.print("Jumlah anggota keluarga : ");
+                int jumlahKeluarga = scanner.nextInt();
+                double zakatBeras = jumlahKeluarga * ZAKAT_FITRAH_BERAS;
+                System.out.println("Zakat fitrah yang harus dibayarkan dalam bentuk beras: " + zakatBeras + " kg");
+                break;
+            case 2:
+                System.out.print("Jumlah anggota keluarga :");
+                jumlahKeluarga = scanner.nextInt();
+                double zakatUang = jumlahKeluarga * ZAKAT_FITRAH_BERAS * HARGA_BERAS_PER_KG;
+                System.out.println("Zakat fitrah yang harus dibayarkan dalam bentuk uang: Rp " + zakatUang);
+                break;
+            default:
+                System.out.println("Pilihan tidak valid.");
+        }
+    }
+
+    // Zakat Mal
+    public static void hitungZakatMal(Scanner scanner) {
+        System.out.print("Masukkan total harta yang dimiliki (dalam Rupiah) : ");
+        double totalHarta = scanner.nextDouble();
+
+        if (totalHarta >= NISAB_ZAKAT_MAL) {
+            double zakatMal = totalHarta * PERSENTASE_ZAKAT_MAL;
+            System.out.println("Zakat mal yang harus dibayarkan: Rp " + zakatMal);
+        } else {
+            System.out.println("Harta belum mencapai nisab, zakat mal tidak wajib.");
+        }
+    }
+
+    // Zakat Pertanian
+    public static void hitungZakatPertanian(Scanner scanner) {
+        System.out.print("Masukkan hasil panen (dalam kilogram) : ");
+        double hasilPanen = scanner.nextDouble();
+
+        if (hasilPanen >= NISAB_PERTANIAN) {
+            System.out.println("\nApakah pengairan lahan dilakukan dengan irigasi?");
+            System.out.println("1. Ya");
+            System.out.println("2. Tidak");
+            System.out.print("silahkan pilih : ");
+
+            int irigasi = scanner.nextInt();
+            double zakatPertanian;
+
+            if (irigasi == 1) {
+                zakatPertanian = hasilPanen * PERSENTASE_PERTANIAN_IRIGASI;
+            } else {
+                zakatPertanian = hasilPanen * PERSENTASE_PERTANIAN_NON_IRIGASI;
+            }
+
+            System.out.println("Zakat pertanian yang harus dibayarkan: " + zakatPertanian + " kg");
+        } else {
+            System.out.println("Hasil panen belum mencapai nisab, zakat pertanian tidak wajib.");
+        }
+    }
+}
